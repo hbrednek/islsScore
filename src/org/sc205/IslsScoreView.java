@@ -110,7 +110,6 @@ public class IslsScoreView extends FrameView {
             }
          }
       } );
-      scoreboard = populate( new ScoreboardFrame().layout( scoreboard ));
    }
 
    @Action
@@ -145,12 +144,12 @@ public class IslsScoreView extends FrameView {
       addPartnershipMenuItem = new javax.swing.JMenuItem();
       javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
       javax.swing.JMenu helpMenu = new javax.swing.JMenu();
+      javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
       objectives = new javax.swing.JMenuItem();
       guidance = new javax.swing.JMenuItem();
       guidelines = new javax.swing.JMenuItem();
       jSeparator1 = new javax.swing.JPopupMenu.Separator();
       jMenuItem1 = new javax.swing.JMenuItem();
-      javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
       statusPanel = new javax.swing.JPanel();
       javax.swing.JSeparator statusPanelSeparator = new javax.swing.JSeparator();
       statusMessageLabel = new javax.swing.JLabel();
@@ -264,6 +263,10 @@ public class IslsScoreView extends FrameView {
       helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
       helpMenu.setName("helpMenu"); // NOI18N
 
+      aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
+      aboutMenuItem.setName("aboutMenuItem"); // NOI18N
+      helpMenu.add(aboutMenuItem);
+
       objectives.setMnemonic('O');
       objectives.setText(resourceMap.getString("objectives.text")); // NOI18N
       objectives.setName("objectives"); // NOI18N
@@ -306,10 +309,6 @@ public class IslsScoreView extends FrameView {
          }
       });
       helpMenu.add(jMenuItem1);
-
-      aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
-      aboutMenuItem.setName("aboutMenuItem"); // NOI18N
-      helpMenu.add(aboutMenuItem);
 
       menuBar.add(helpMenu);
 
@@ -390,7 +389,7 @@ public class IslsScoreView extends FrameView {
        sb.append( "\nor American/Canadian) are specified." );
        sb.append( "\n\n2) Click on an available game to signify its start." );
        sb.append( "\n\n3) Click on an in-progress game at its completion in" );
-       sb.append( "\niorder to record the result" );
+       sb.append( "\norder to record the result." );
        JOptionPane.showMessageDialog( null, sb.toString() );
     }//GEN-LAST:event_guidanceActionPerformed
 
@@ -414,7 +413,6 @@ public class IslsScoreView extends FrameView {
        sb.append( "\nlessen the probability of the program's being terminated" );
        sb.append( "\ninadvertently." );
        JOptionPane.showMessageDialog( null, sb.toString() );
-       // TODO add your handling code here:
     }//GEN-LAST:event_guidelinesActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -479,71 +477,5 @@ public class IslsScoreView extends FrameView {
          rightText.setText( text );
    }
 
-   private ScoreboardFrame populate( ScoreboardFrame initial ) {
-      Partnership pe, pa;
-      Partnership[] pt = new Partnership[20];
-
-      pt[0] = pe = new Partnership( Affiliation.EUROPEAN );
-      pe.setBaseName( 0, "Ladier, Gerard" );
-      pe.setBaseName( 1, "Comar, Cyrille" );
-      GameSet.instance().add( pe );
-
-      pt[1] = pe = new Partnership( Affiliation.EUROPEAN );
-      pe.setBaseName( 0, "Brown, Duncan" );
-      pe.setBaseName( 1, "Bleichner, Thomas" );
-      GameSet.instance().add( pe );
-
-      pt[2] = pe = new Partnership( Affiliation.EUROPEAN );
-      pe.setBaseName( 0, "Ashpole, Ron" );
-      pe.setBaseName( 1, "Hannan, Ross" );
-      GameSet.instance().add( pe );
-
-      pt[3] = pe = new Partnership( Affiliation.EUROPEAN );
-      pe.setBaseName( 0, "Delseney, Herve" );
-      pe.setBaseName( 1, "Pothon, Frederic" );
-      GameSet.instance().add( pe );
-
-      pt[4] = pe = new Partnership( Affiliation.EUROPEAN );
-      pe.setBaseName( 0, "O'Reilly, Paddy" );
-      pe.setBaseName( 1, "Evans, Jim" );
-      GameSet.instance().add( pe );
-
-      pt[5] = pe = new Partnership( Affiliation.EUROPEAN );
-      pe.setBaseName( 0, "Davis, Fred" );
-      pe.setBaseName( 1, "McSweeney, Ian" );
-      GameSet.instance().add( pe );
-
-      pt[6] = pa = new Partnership( Affiliation.AMERICAN );
-      pa.setBaseName( 0, "Morris, Rob" );
-      pa.setBaseName( 1, "Malik, Varun" );
-      GameSet.instance().add( pa );
-
-      pt[7] = pa = new Partnership( Affiliation.AMERICAN );
-      pa.setBaseName( 0, "Krodel, Jim" );
-      pa.setBaseName( 1, "Angermayer, John" );
-      GameSet.instance().add( pa );
-
-      pt[8] = pa = new Partnership( Affiliation.AMERICAN );
-      pa.setBaseName( 0, "Elliott, Mike" );
-      pa.setBaseName( 1, "Gasiorowski, Marty" );
-      GameSet.instance().add( pa );
-
-      pt[9] = pa = new Partnership( Affiliation.AMERICAN );
-      pa.setBaseName( 0, "Sova, Robin" );
-      pa.setBaseName( 1, "Lingberg, Barbara" );
-      GameSet.instance().add( pa );
-
-      pt[10] = pa = new Partnership( Affiliation.AMERICAN );
-      pa.setBaseName( 0, "Wojnarowski, Patti" );
-      pa.setBaseName( 1, "Alford, Leslie" );
-      GameSet.instance().add( pa );
-
-      pt[11] = pa = new Partnership( Affiliation.AMERICAN );
-      pa.setBaseName( 0, "Chelini, Jim" );
-      pa.setBaseName( 1, "Romanski, George" );
-      GameSet.instance().add( pa );
-
-      return new ScoreboardFrame( initial ).layout( initial );
-   }
-   public static ScoreboardFrame scoreboard = null;
+    public static ScoreboardFrame scoreboard = null;
 }
