@@ -393,6 +393,8 @@ public class IslsScoreView extends FrameView {
        JOptionPane.showMessageDialog( null, sb.toString() );
     }//GEN-LAST:event_guidanceActionPerformed
 
+    // Guidelines action performed
+    //
     private void guidelinesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guidelinesActionPerformed
        StringBuilder sb = new StringBuilder();
        sb.append( "Additional partnerships can be added at any time by clicking" );
