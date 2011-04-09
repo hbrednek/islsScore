@@ -173,6 +173,13 @@ public class Partnership implements Comparable {
       return true;
    }
 
+  public Date timeSinceLastGame() {
+     long currentTimeMs    = System.currentTimeMillis();
+     long lastPlayedTimeMs = this.lastGamePlayed.getTime();
+     long elapsedTime      = currentTimeMs - lastPlayedTimeMs;
+     return (new Date(elapsedTime));
+  }
+
    @Override
    public int hashCode() {
       int hash = 5;

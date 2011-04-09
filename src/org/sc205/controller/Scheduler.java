@@ -59,15 +59,20 @@ public class Scheduler {
       final StringBuilder result = new StringBuilder( " " );
       final String prefix = aff == EUROPEAN ? "E" : "A";
       for (Partnership pp: teams.get( aff )) {
+         if (!pp.isAvailableForPlay())
+            continue;
          result.append( prefix ).append( pp.index + 1 ).append( " " );
          result.append( pp.gamesPlayed() ).append( " " );
-         result.append( DF.format( pp.getLastGamePlayed() ));
+         result.append( DF.format( pp.timeSinceLastGame() ));
          result.append( "\n " );
       }
       return result.toString();
    }
 
    final private static DateFormat DF = new SimpleDateFormat( "HH:mm:ss" );
+   static {
+      DF.setTimeZone( java.util.TimeZone.getTimeZone( "UTC" ));
+   }
 
    private void updatePanel( ) {
       IslsScoreView view = IslsScoreView.INSTANCE;
@@ -76,7 +81,6 @@ public class Scheduler {
       view.setText( IslsScoreView.Col.LEFT, text( AMERICAN ));
       view.setText( IslsScoreView.Col.RIGHT, text( EUROPEAN ));
    }
-
 
    final static Random ran = new Random( new Date().getTime() );
 
