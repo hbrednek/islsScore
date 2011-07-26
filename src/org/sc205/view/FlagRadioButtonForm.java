@@ -25,6 +25,7 @@ package org.sc205.view;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.Observable;
 import javax.swing.ImageIcon;
 import org.sc205.model.Partnership.Affiliation;
 
@@ -81,14 +82,14 @@ public class FlagRadioButtonForm extends javax.swing.JPanel {
       euroPanelLayout.setHorizontalGroup(
          euroPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(euroPanelLayout.createSequentialGroup()
-            .addContainerGap(3, Short.MAX_VALUE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(european)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
       euroPanelLayout.setVerticalGroup(
          euroPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(euroPanelLayout.createSequentialGroup()
-            .addContainerGap(3, Short.MAX_VALUE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(european)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
@@ -131,7 +132,7 @@ public class FlagRadioButtonForm extends javax.swing.JPanel {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addComponent(euroPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(amCanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(25, Short.MAX_VALUE))
+            .addContainerGap(40, Short.MAX_VALUE))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,17 +141,19 @@ public class FlagRadioButtonForm extends javax.swing.JPanel {
             .addComponent(euroPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(20, 20, 20)
             .addComponent(amCanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(31, Short.MAX_VALUE))
+            .addContainerGap(108, Short.MAX_VALUE))
       );
    }// </editor-fold>//GEN-END:initComponents
 
     private void europeanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_europeanItemStateChanged
        final Color bg = european.isSelected() ? SELECTED : DESELECTED;
+       obs.notifyObservers( this );
        euroPanel.setBackground( bg );
     }//GEN-LAST:event_europeanItemStateChanged
 
     private void americanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_americanItemStateChanged
        final Color bg = american.isSelected() ? SELECTED : DESELECTED;
+       obs.notifyObservers( this );
        amCanPanel.setBackground( bg );
     }//GEN-LAST:event_americanItemStateChanged
 
@@ -170,6 +173,23 @@ public class FlagRadioButtonForm extends javax.swing.JPanel {
          return Affiliation.EUROPEAN;
       return null;
    }
+
+   public boolean selectionMade() {
+      return european.isSelected() || american.isSelected();
+   }
+
+   public Observable getObservable() {
+      return obs;
+   }
+
+   private Observable obs = new Observable() {
+
+      @Override
+      public void notifyObservers( Object o ) {
+         setChanged();
+         super.notifyObservers( o );
+      }
+   };
 
    final private static Color DESELECTED = new Color( 237, 236, 235 );
    final private static Color SELECTED = Color.GRAY;

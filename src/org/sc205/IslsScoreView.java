@@ -29,29 +29,40 @@ import org.jdesktop.application.FrameView;
 import org.jdesktop.application.TaskMonitor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.TimerTask;
 import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.sc205.model.GameSet;
-import org.sc205.model.Partnership;
-import org.sc205.model.Partnership.Affiliation;
 import org.sc205.view.ScoreboardFrame;
 
 /**
  * The application's main frame.
  */
-public class IslsScoreView extends FrameView {
+final public class IslsScoreView extends FrameView {
 
    public static IslsScoreView INSTANCE;
+
+   private TimerTask tt = new TimerTask() {
+
+      @Override
+      public void run() {
+         if (!GameSet.instance().allGames().isEmpty())
+            GameSet.instance().updateUnplayable();
+      }
+   };
+
+   private java.util.Timer timer = new java.util.Timer();
 
    public IslsScoreView( SingleFrameApplication app ) {
       super( app );
 
       initComponents();
       INSTANCE = this;
-
+      timer.schedule( tt, 2000, 1000 );
+      
       // status bar initialization - message timeout, idle icon and busy animation, etc
       ResourceMap resourceMap = getResourceMap();
       int messageTimeout = resourceMap.getInteger( "StatusBar.messageTimeout" );
@@ -363,13 +374,11 @@ public class IslsScoreView extends FrameView {
     private void maxGamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxGamesActionPerformed
        try {
           lastMaxGames = Integer.parseInt( maxGames.getText() );
-          maxGames.setBackground( colors[ndx++ % 2] );
-          GameSet.instance().updateUnplayable();
+          setLastMaxGames();
        }
        catch (Exception ex) {
-          // ignored;
+          return;
        }
-       maxGames.setText( String.valueOf( lastMaxGames ) );
     }//GEN-LAST:event_maxGamesActionPerformed
 
     private void objectivesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectivesActionPerformed
@@ -472,11 +481,22 @@ public class IslsScoreView extends FrameView {
       return lastMaxGames;
    }
 
+   public void setMaxGames( int lastMaxGames ) {
+      this.lastMaxGames = lastMaxGames;
+      setLastMaxGames();
+   }
+
    public void setText( Col col, String text ) {
       if (col == Col.LEFT)
          leftText.setText( text );
       else if (col == Col.RIGHT)
          rightText.setText( text );
+   }
+
+   private void setLastMaxGames() {
+      maxGames.setBackground( colors[ndx++ % 2] );
+      GameSet.instance().updateUnplayable();
+      maxGames.setText( String.valueOf( lastMaxGames ) );
    }
 
     public static ScoreboardFrame scoreboard = null;

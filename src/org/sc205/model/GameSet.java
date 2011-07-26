@@ -16,9 +16,9 @@
  */
 package org.sc205.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -68,6 +68,7 @@ public class GameSet {
             game.setStatus( Game.Status.SCHEDULE_CONFLICT );
       }
       scheduleNextGame();
+      adjustMaxGames();
    }
 
    public int getScore( Affiliation affiliation ) {
@@ -159,7 +160,7 @@ public class GameSet {
 
    private void updateMaxGames() {
       final int maxGames = IslsScoreView.INSTANCE.getMaxGames();
-      Iterator<Game> iterator = gameSet.iterator();
+      final Iterator<Game> iterator = gameSet.iterator();
       while (iterator.hasNext()) {
          Game game = iterator.next();
          for (Affiliation aff: Affiliation.values()) {
@@ -176,6 +177,28 @@ public class GameSet {
          }
       }
    }
+
+   private void adjustMaxGames() {
+      final HashMap<Affiliation, HashSet<Partnership>> map =
+           new HashMap<Affiliation, HashSet<Partnership>>();
+      map.put( Affiliation.EUROPEAN, new HashSet<Partnership>() );
+      map.put( Affiliation.AMERICAN, new HashSet<Partnership>() );
+      final Iterator<Game> iterator = gameSet.iterator();
+      while (iterator.hasNext()) {
+         Game game = iterator.next();
+         for (Affiliation aff: Affiliation.values()) {
+            final Partnership pp = game.getTeam( aff );
+            map.get( aff ).add( pp );
+         }
+      }
+      final int euroSize = map.get( Affiliation.EUROPEAN ).size();
+      final int amcanSize = map.get( Affiliation.AMERICAN ).size();
+      final int largestAffiliation = Math.max( euroSize, amcanSize );
+      final int smallestAffiliation = Math.min( euroSize, amcanSize );
+      if (smallestAffiliation > 0)
+         IslsScoreView.INSTANCE.setMaxGames( largestAffiliation );
+   }
+
    private ScoreBox[][] scoreBoxes;
    private HashSet<Game> gameSet = new HashSet<Game>();
    final private static GameSet INSTANCE = new GameSet();
