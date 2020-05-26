@@ -1,3 +1,5 @@
+#islsScore
+
 This project is a graphical score keeping program for the Isle Sur la Sorgue Trophy, which is an 8-ball tournament held at each plenary session of SC_205/WG-71.  
 
 The tournament is a competition between a set of European partnerships and a set of American/Canadian partnerships.  This program maintains the score throughout the tournament, allowing partnerships to be added at any time and limiting (if desired) the total number of games played by each partnership.
